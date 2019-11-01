@@ -6,3 +6,5 @@ Maven POM entry -
 		    <version>2.2.11</version>
 		</dependency>
     
+
+FOr Code reference for Util file refer https://wilddiary.com/validate-json-against-schema-in-java/ and how to invoke the framework.
