@@ -1,5 +1,23 @@
 Set up the below code,
 *******************START - Main Class invoked by request***********************
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.kie.api.KieServices;
+import org.kie.api.runtime.KieContainer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.openhack.dev.model.ITR;
+import com.openhack.dev.service.JsonContentValidationService;
+
+
 	public static void executeDrools(String fileName) {
 		// JSON parser object to parse read file
 		JSONParser jsonParser = new JSONParser();
