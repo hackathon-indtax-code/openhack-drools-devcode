@@ -1,0 +1,54 @@
+package rules
+
+import com.openhack.dev.model.ITR
+
+rule "Check Form Name and Total Income - Effective date range"
+    date-effective "20-Oct-2019 8:00"      
+    date-expires   "20-Oct-2019 16:00"     
+	when 
+		itrObject: ITR(formITR2.formName.equals("ITR-2") && partBTI.totalTI > 0)
+	then
+		itrObject.setValidationMessages("Form name is ITR-2 AND Total Income is Positive - **************Effective date range**************");
+	end
+	
+rule "Check Form Name and Total Income"
+	when 
+		itrObject: ITR(formITR2.formName.equals("ITR-2") && partBTI.totalTI > 0)
+	then
+		itrObject.setValidationMessages("Form name is ITR-2 AND Total Income is Positive");
+	end
+	
+rule "Check Assessment Year"
+	when 
+		itrObject: ITR(formITR2.assessmentYear == 2016)
+	then
+		itrObject.setValidationMessages("Assessment Year is 2016");
+	end
+	
+rule "Check Total Income"
+	when 
+		itrObject: ITR(partBTI.totalTI != (partBTI.incFromOS.incFromOS1+partBTI.incFromOS.incFromOS2))
+	then
+		itrObject.setValidationMessages("Total Income DOES NOT match Other Source Sum");
+	end
+	
+rule "Check Total Income Greater than 200K"
+	when 
+		itrObject: ITR(partBTI.totalTI > 200000)
+	then
+		itrObject.setValidationMessages("Total Income is more than 200K");
+	end
+	
+rule "Check Gender"
+	when 
+		itrObject: ITR(partAGEN1.personalInfo.gender.equals("F"))
+	then
+		itrObject.setValidationMessages("ITR is filed by a female");
+	end
+	
+rule "Check Total Income Less than 200K & Female"
+	when 
+		itrObject: ITR(partBTI.totalTI < 200000 && partAGEN1.personalInfo.gender.equals("F"))
+	then
+		itrObject.setValidationMessages("Total Income is more than 200K and filed by a female");
+	end
