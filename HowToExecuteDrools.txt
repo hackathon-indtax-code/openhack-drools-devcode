@@ -1,0 +1,64 @@
+Set up the below code,
+*******************START - Main Class invoked by request***********************
+	public static void executeDrools(String fileName) {
+		// JSON parser object to parse read file
+		JSONParser jsonParser = new JSONParser();
+		FileReader reader;
+		try {
+			reader = new FileReader(OpenhackApplication.class.getClassLoader().getResource(fileName).getFile());
+			JSONObject json = (JSONObject) jsonParser.parse(reader);
+			json = (JSONObject) json.get("ITR2");
+			// System.out.println(json.toJSONString());
+			ObjectMapper mapper = new ObjectMapper();
+			ITR itr = mapper.readValue(json.toJSONString(), ITR.class);
+
+			OpenhackApplication.validateITR(itr);
+		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
+	private static JsonContentValidationService jsonContentValidationService = new JsonContentValidationService(
+			kieContainer());
+
+	@Bean
+	public static KieContainer kieContainer() {
+		return KieServices.Factory.get().getKieClasspathContainer();
+	}
+
+	public static ITR validateITR(ITR itr) {
+		long start = System.currentTimeMillis();
+		jsonContentValidationService.getValidationMessages(itr);
+
+		System.out.println("*************************************Execution Time - Drools : "
+				+ (System.currentTimeMillis() - start) + " : millisecs");
+		//System.out.println(itr.getValidationMessages());
+		return itr;
+	}
+
+*******************END - Main Class invoked by request***********************
+
+*******************START - Service Class***********************
+@Service
+public class JsonContentValidationService {
+
+	private final KieContainer kieContainer;
+
+	@Autowired
+	public JsonContentValidationService(KieContainer kieContainer) {
+		this.kieContainer = kieContainer;
+	}
+
+	public ITR getValidationMessages(ITR itr) {
+		//get the stateful session
+		KieSession kieSession = kieContainer.newKieSession("rulesSession");
+		kieSession.insert(itr);
+		kieSession.fireAllRules();
+		kieSession.dispose();
+		return itr;
+	}
+	
+}
+*******************END - Service Class***********************
