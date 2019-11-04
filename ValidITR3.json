@@ -1,0 +1,36 @@
+{
+   "ITR3": {
+      "CreationInfo": {
+         "XMLCreationDate": "2018-11-13T20:20:39+00:00"
+      },
+      "Form_ITR3": {
+         "FormName": "ITR-3",
+         "Description": "For Indls and  HUFs not having Income from Business or Profession",
+         "AssessmentYear": 2016
+      },
+      "PartA_GEN1": {
+         "PersonalInfo": {
+            "AssesseeName": {
+               "FirstName": "AAAAAA"
+            },
+            "PAN": "AAAPA1111A",
+            "Address": {
+               "StateCode": 2,
+               "PinCode": 111111
+            },
+            "DOB": "1900-01-01",
+            "Gender": "F"
+         },
+         "FilingStatus": {
+            "FilingDateTime": "2018-11-13T20:20:39+00:00"
+         }
+      },
+      "PartB-TI": {
+         "IncFromOS": {
+            "IncFromOS1": 1234,
+            "IncFromOS2": 2345
+         },
+         "TotalTI": 40000
+      }
+   }
+}
